@@ -5,6 +5,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "hardhat/console.sol";
 
 contract Doodles is ERC721, ERC721Enumerable, Ownable {
     string public PROVENANCE;
@@ -14,7 +15,7 @@ contract Doodles is ERC721, ERC721Enumerable, Ownable {
     bool public isAllowListActive = false;
     uint256 public constant MAX_SUPPLY = 10000;
     uint256 public constant MAX_PUBLIC_MINT = 5;
-    uint256 public constant PRICE_PER_TOKEN = 0.123 ether;
+    uint256 public constant PRICE_PER_TOKEN = 0.01 ether;
 
     mapping(address => uint8) private _allowList;
 
@@ -89,6 +90,7 @@ contract Doodles is ERC721, ERC721Enumerable, Ownable {
     }
 
     function mint(uint numberOfTokens) public payable {
+        console.log("value: :", msg.value);
         uint256 ts = totalSupply();
         require(saleIsActive, "Sale must be active to mint tokens");
         require(numberOfTokens <= MAX_PUBLIC_MINT, "Exceeded max token purchase");
